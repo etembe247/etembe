@@ -200,7 +200,7 @@ export function LandingPage() {
             <div className="absolute -inset-4 bg-[var(--primary)]/5 blur-2xl rounded-[3rem] -z-10" />
             <div className="aspect-square rounded-[3rem] overflow-hidden border border-[var(--border)] bg-[var(--muted)] group shadow-xl">
               <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000" 
+                src="/dan-peter.jpg" 
                 alt="Dan Peter" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
