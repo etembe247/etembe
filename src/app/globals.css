@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Electric Blue / White / Black Design System ── */
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+  --muted: #f5f5f7;
+  --muted-foreground: #6e6e73;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --border: #e5e5e7;
+  --input: #e5e5e7;
+  --primary: #0066FF;
+  --primary-foreground: #ffffff;
+  --secondary: #f0f4ff;
+  --secondary-foreground: #0066FF;
+  --accent: #f5f5f7;
+  --accent-foreground: #000000;
+  --destructive: #ff3b30;
+  --destructive-foreground: #ffffff;
+  --ring: #0066FF;
+  --radius: 0.75rem;
+  --success: #34c759;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #000000;
+    --foreground: #ffffff;
+    --muted: #1c1c1e;
+    --muted-foreground: #8e8e93;
+    --card: #1c1c1e;
+    --card-foreground: #ffffff;
+    --popover: #1c1c1e;
+    --popover-foreground: #ffffff;
+    --border: #2c2c2e;
+    --input: #2c2c2e;
+    --primary: #0a84ff;
+    --primary-foreground: #ffffff;
+    --secondary: #0a1628;
+    --secondary-foreground: #0a84ff;
+    --accent: #2c2c2e;
+    --accent-foreground: #ffffff;
+    --destructive: #ff453a;
+    --destructive-foreground: #ffffff;
+    --ring: #0a84ff;
+    --success: #30d158;
+  }
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Glassmorphism ── */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass {
+    background: rgba(28, 28, 30, 0.72);
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* ── Card hover ── */
+.card-hover {
+  transition: all 0.3s ease-out;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 102, 255, 0.08);
+  border-color: rgba(0, 102, 255, 0.2);
+}
+
+/* ── Hide scrollbar ── */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Animations ── */
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── PWA Safe Areas ── */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(0, 102, 255, 0.2);
+  color: inherit;
+}
+
+/* ── Smooth scrolling ── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Modal backdrop ── */
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ── Toggle switch ── */
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: var(--border);
+}
+.toggle-switch .toggle-knob {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: white;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.toggle-switch.active {
+  background-color: var(--primary);
+}
+.toggle-switch.active .toggle-knob {
+  transform: translateX(20px);
+}
