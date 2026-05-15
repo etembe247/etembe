@@ -5,7 +5,7 @@ import {
   BookOpen, Users, Play, MessageSquare, 
   Sparkles, ArrowRight, CheckCircle2,
   Mail, Lock, User as UserIcon,
-  ChevronRight, Star, Globe, Zap
+  ChevronRight, Star, Globe, Zap, MapPin, Phone
 } from "lucide-react";
 import { useState } from "react";
 
@@ -189,6 +189,68 @@ export function LandingPage() {
               </Link>
             </div>
             <Globe className="w-32 h-32 text-white/20 hidden lg:block group-hover:rotate-12 transition-transform duration-1000" />
+          </div>
+        </div>
+      </section>
+
+      {/* Meet the Founder Section */}
+      <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-[var(--border)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="relative">
+            <div className="absolute -inset-4 bg-[var(--primary)]/5 blur-2xl rounded-[3rem] -z-10" />
+            <div className="aspect-square rounded-[3rem] overflow-hidden border border-[var(--border)] bg-[var(--muted)] group shadow-xl">
+              <img 
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000" 
+                alt="Dan Peter" 
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+            <div className="absolute -bottom-6 -right-6 p-6 bg-white border border-[var(--border)] rounded-3xl shadow-xl">
+              <div className="text-[var(--primary)] font-black text-xl">17</div>
+              <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase tracking-widest">Years Old</div>
+            </div>
+          </div>
+
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] text-[10px] font-black uppercase tracking-widest">
+                Founder & Visionary
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[var(--foreground)]">Dan Peter</h2>
+              <p className="text-lg text-[var(--muted-foreground)] leading-relaxed">
+                Building the future of digital interaction from Lagos, Nigeria. A student at **Immaculate Heart Comprehensive High School**, Maryland, driven by a mission to unify creative ecosystems.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="p-4 rounded-2xl bg-[var(--muted)] border border-[var(--border)] space-y-2">
+                <MapPin className="w-5 h-5 text-[var(--primary)]" />
+                <div className="text-sm font-bold">Location</div>
+                <div className="text-xs text-[var(--muted-foreground)]">Mende, Maryland, Lagos State</div>
+              </div>
+              <a 
+                href="https://wa.me/2348088461525" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-4 rounded-2xl bg-white border border-[var(--border)] space-y-2 hover:border-[var(--primary)]/30 transition-all group"
+              >
+                <Phone className="w-5 h-5 text-[var(--success)]" />
+                <div className="text-sm font-bold">Contact</div>
+                <div className="text-xs text-[var(--muted-foreground)] group-hover:text-[var(--primary)] transition-colors">+234 808 846 1525</div>
+              </a>
+            </div>
+
+            <div className="pt-6 flex items-center gap-6">
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold">Lagos</span>
+                <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase tracking-widest">Operations Base</span>
+              </div>
+              <div className="w-px h-10 bg-[var(--border)]" />
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold">IHCHS</span>
+                <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase tracking-widest">Education</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
