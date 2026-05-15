@@ -5,269 +5,394 @@ import {
   BookOpen, Users, Play, MessageSquare, 
   Sparkles, ArrowRight, CheckCircle2,
   Mail, Lock, User as UserIcon,
-  ChevronRight, Star, Globe, Zap, MapPin, Phone
+  ChevronRight, Star, Globe, Zap, MapPin, Phone,
+  Layers, Shield, Cpu, MousePointer2
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 
 export function LandingPage() {
   const [isLogin, setIsLogin] = useState(false);
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-[var(--primary)]/10 selection:text-[var(--primary)] font-sans antialiased">
-      {/* Light Pattern Background */}
-      <div className="fixed inset-0 z-0 opacity-[0.02] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
-      <div className="fixed inset-0 z-0 bg-gradient-to-b from-[var(--primary)]/[0.03] via-transparent to-[var(--secondary)]/[0.03] pointer-events-none" />
+    <div className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] font-sans selection:bg-[var(--primary)] selection:text-white overflow-x-hidden">
+      {/* Noise Texture */}
+      <div className="noise" />
+
+      {/* Dynamic Background Elements */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <motion.div 
+          style={{ y: y1 }}
+          className="absolute top-[-10%] right-[-5%] w-[60%] aspect-square bg-[var(--primary)]/10 blur-[120px] rounded-full"
+        />
+        <motion.div 
+          style={{ y: useTransform(scrollY, [0, 500], [0, -100]) }}
+          className="absolute bottom-[-10%] left-[-5%] w-[40%] aspect-square bg-blue-400/10 blur-[100px] rounded-full"
+        />
+      </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-white/80 backdrop-blur-xl py-4 px-6 md:px-12 flex justify-between items-center">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-[var(--primary)] rounded-lg flex items-center justify-center font-black text-base tracking-tighter text-white">E</div>
-          <span className="font-bold text-lg tracking-tight letter-spacing-tight">ETEMBE</span>
-        </div>
-        
-        <div className="hidden md:flex items-center gap-10 text-[13px] font-medium text-[var(--muted-foreground)]">
-          <a href="#ecosystem" className="hover:text-[var(--foreground)] transition-colors">Ecosystem</a>
-          <a href="#academy" className="hover:text-[var(--foreground)] transition-colors">Academy</a>
-          <a href="#social" className="hover:text-[var(--foreground)] transition-colors">Social</a>
-        </div>
+      <motion.nav 
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 left-0 right-0 z-[100] px-6 py-6"
+      >
+        <div className="max-w-7xl mx-auto flex justify-between items-center glass-premium px-6 py-3 rounded-2xl">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-[var(--primary)] rounded-xl flex items-center justify-center shadow-lg shadow-[var(--primary)]/20 group cursor-pointer">
+              <span className="font-black text-white text-lg group-hover:scale-110 transition-transform">E</span>
+            </div>
+            <span className="font-black text-xl tracking-tighter uppercase">ETEMBE</span>
+          </div>
+          
+          <div className="hidden md:flex items-center gap-8 text-[11px] font-black uppercase tracking-widest text-[var(--muted-foreground)]">
+            <a href="#ecosystem" className="hover:text-[var(--primary)] transition-colors relative group">
+              Ecosystem
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[var(--primary)] transition-all group-hover:w-full" />
+            </a>
+            <a href="#academy" className="hover:text-[var(--primary)] transition-colors relative group">
+              Academy
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[var(--primary)] transition-all group-hover:w-full" />
+            </a>
+            <a href="#founder" className="hover:text-[var(--primary)] transition-colors relative group">
+              Founder
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[var(--primary)] transition-all group-hover:w-full" />
+            </a>
+          </div>
 
-        <div className="flex items-center gap-6">
-          <button onClick={() => setIsLogin(!isLogin)} className="text-[13px] font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
-            {isLogin ? "Create account" : "Sign in"}
-          </button>
-          <Link href="/auth" className="px-5 py-2 bg-[var(--primary)] text-white rounded-full text-[13px] font-bold hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[var(--primary)]/20">
-            Get Started
-          </Link>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setIsLogin(!isLogin)} 
+              className="hidden sm:block text-[11px] font-black uppercase tracking-widest text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+            >
+              {isLogin ? "Join Now" : "Sign In"}
+            </button>
+            <Link 
+              href="/auth" 
+              className="px-6 py-2.5 bg-[var(--foreground)] text-[var(--background)] rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-[var(--primary)] hover:text-white transition-all active:scale-95 shadow-xl shadow-black/5"
+            >
+              Get Started
+            </Link>
+          </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Hero Section */}
-      <main className="relative z-10 pt-40 pb-20 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--muted)] border border-[var(--border)] text-[11px] font-bold tracking-widest uppercase text-[var(--muted-foreground)] mb-10 animate-fade-in">
-          <Zap className="w-3 h-3 text-[var(--primary)]" />
-          The Unified Creative OS
-        </div>
+      <main className="relative z-10 pt-44 pb-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Hero Text */}
+            <div className="lg:col-span-7 space-y-10">
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-[var(--muted)] border border-[var(--border)]"
+              >
+                <div className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted-foreground)]">V 2.0 Now Live</span>
+              </motion.div>
 
-        <h1 className="text-5xl md:text-8xl font-black tracking-tight leading-[1] mb-8 max-w-5xl animate-slide-up">
-          The all-in-one <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-b from-[var(--foreground)] to-[var(--muted-foreground)]">digital ecosystem.</span>
-        </h1>
+              <motion.h1 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                className="text-6xl md:text-8xl font-black tracking-tight leading-[0.95]"
+              >
+                The Future of <br />
+                <span className="text-gradient">Creative Flow.</span>
+              </motion.h1>
 
-        <p className="text-lg md:text-xl text-[var(--muted-foreground)] max-w-2xl leading-relaxed mb-12 animate-slide-up delay-100">
-          A professional space combining elite education, social networking, and content creation. Built for the modern visionary.
-        </p>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-xl text-[var(--muted-foreground)] max-w-xl leading-relaxed font-medium"
+              >
+                A unified ecosystem designed for the next generation of digital architects. Learn, connect, and build without boundaries.
+              </motion.p>
 
-        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md animate-slide-up delay-200 mb-24">
-          <Link href="/auth" className="flex-1 px-8 py-4 bg-[var(--primary)] text-white rounded-2xl font-bold text-base shadow-[0_20px_50px_rgba(0,102,255,0.2)] hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2">
-            Join the Ecosystem <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
-
-        {/* Professional Mockup Section */}
-        <div className="w-full relative animate-fade-in delay-300">
-          <div className="absolute inset-0 bg-[var(--primary)]/10 blur-[120px] rounded-full -z-10 scale-75 opacity-50" />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left: App Showcase Card */}
-            <div className="lg:col-span-7 rounded-[2rem] border border-[var(--border)] bg-white overflow-hidden group shadow-2xl">
-              <div className="p-1.5 bg-[var(--muted)] border-b border-[var(--border)] flex items-center gap-2 px-4">
-                <div className="flex gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[var(--border)]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[var(--border)]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[var(--border)]" />
-                </div>
-                <div className="mx-auto bg-white/50 px-4 py-1 rounded-md text-[10px] text-[var(--muted-foreground)] font-mono">etembe.io/dashboard</div>
-              </div>
-              <img 
-                src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=2000" 
-                alt="App Interface" 
-                className="w-full h-auto grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700"
-              />
-            </div>
-
-            {/* Right: Modern Form Card */}
-            <div className="lg:col-span-5 p-10 rounded-[2rem] border border-[var(--border)] bg-white shadow-2xl space-y-8 text-left">
-              <div className="space-y-2">
-                <h2 className="text-2xl font-bold">{isLogin ? "Sign In" : "Create Account"}</h2>
-                <p className="text-sm text-[var(--muted-foreground)]">Enter your professional details below.</p>
-              </div>
-
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                {!isLogin && (
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-[var(--muted-foreground)] uppercase tracking-wider ml-1">Full Name</label>
-                    <input type="text" placeholder="John Doe" className="w-full bg-[var(--muted)] border border-[var(--border)] rounded-xl px-4 py-3 text-sm outline-none focus:border-[var(--primary)]/30 focus:bg-white transition-all" />
-                  </div>
-                )}
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-[var(--muted-foreground)] uppercase tracking-wider ml-1">Work Email</label>
-                  <input type="email" placeholder="name@company.com" className="w-full bg-[var(--muted)] border border-[var(--border)] rounded-xl px-4 py-3 text-sm outline-none focus:border-[var(--primary)]/30 focus:bg-white transition-all" />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-[var(--muted-foreground)] uppercase tracking-wider ml-1">Password</label>
-                  <input type="password" placeholder="••••••••" className="w-full bg-[var(--muted)] border border-[var(--border)] rounded-xl px-4 py-3 text-sm outline-none focus:border-[var(--primary)]/30 focus:bg-white transition-all" />
-                </div>
-                
-                <Link href="/auth" className="block w-full py-4 bg-[var(--primary)] text-white rounded-xl font-bold text-sm text-center hover:opacity-90 transition-all mt-4 shadow-lg shadow-[var(--primary)]/20">
-                  {isLogin ? "Sign In to ETEMBE" : "Start your journey"}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="flex flex-col sm:flex-row gap-4 pt-4"
+              >
+                <Link href="/auth" className="group relative px-8 py-5 bg-[var(--primary)] text-white rounded-2xl font-black text-sm uppercase tracking-widest overflow-hidden shadow-2xl shadow-[var(--primary)]/30">
+                  <span className="relative z-10 flex items-center gap-2">
+                    Enter the Ecosystem <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                 </Link>
-              </form>
+                <a href="#ecosystem" className="px-8 py-5 border-2 border-[var(--border)] rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-[var(--muted)] transition-colors text-center">
+                  Explore Components
+                </a>
+              </motion.div>
 
-              <div className="pt-6 border-t border-[var(--border)]">
-                <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)] font-medium">
-                  <div className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[var(--success)]" />
-                    No credit card required
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[var(--success)]" />
-                    Unlimited access
-                  </div>
+              {/* Stats / Trust */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.6 }}
+                className="pt-12 flex flex-wrap gap-12 grayscale opacity-50"
+              >
+                <div className="space-y-1">
+                  <div className="text-2xl font-black">2.4k+</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-[var(--muted-foreground)]">Architects</div>
                 </div>
-              </div>
+                <div className="space-y-1">
+                  <div className="text-2xl font-black">150+</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-[var(--muted-foreground)]">Masterclasses</div>
+                </div>
+                <div className="space-y-1">
+                  <div className="text-2xl font-black">99.9%</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-[var(--muted-foreground)]">Uptime</div>
+                </div>
+              </motion.div>
             </div>
+
+            {/* Hero Visual */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, rotate: 5 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:col-span-5 relative"
+            >
+              <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,102,255,0.2)] border border-white/20">
+                <img 
+                  src="/hero-visual.png" 
+                  alt="ETEMBE Visual" 
+                  className="w-full h-auto hover:scale-105 transition-transform duration-1000"
+                />
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/20 blur-3xl rounded-full" />
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-[var(--primary)]/20 blur-3xl rounded-full" />
+            </motion.div>
           </div>
         </div>
       </main>
 
-      {/* Bento Grid Features */}
-      <section id="ecosystem" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          <div className="md:col-span-8 p-10 rounded-[2.5rem] bg-[var(--muted)] border border-[var(--border)] flex flex-col justify-between group overflow-hidden">
-            <div className="space-y-4 max-w-md relative z-10">
-              <div className="w-12 h-12 rounded-2xl bg-[var(--primary)]/10 flex items-center justify-center text-[var(--primary)] mb-6">
-                <BookOpen className="w-6 h-6" />
-              </div>
-              <h3 className="text-3xl font-bold tracking-tight">The Academy</h3>
-              <p className="text-[var(--muted-foreground)] leading-relaxed">
-                A professional-grade learning management system. Track progress, earn certifications, and master elite skills with our interactive curriculum.
-              </p>
-            </div>
-            <div className="mt-12 transform group-hover:translate-x-2 transition-transform">
-              <Link href="/course" className="inline-flex items-center gap-2 text-sm font-bold text-[var(--foreground)] hover:text-[var(--primary)]">
-                Explore Curriculum <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
+      {/* Feature Section - Bento Redefined */}
+      <section id="ecosystem" className="py-32 px-6 bg-[var(--muted)]/30 border-y border-[var(--border)]">
+        <div className="max-w-7xl mx-auto space-y-20">
+          <div className="text-center space-y-4 max-w-2xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight uppercase">Master the Stack.</h2>
+            <p className="text-[var(--muted-foreground)] font-medium">A modular platform built to scale with your ambition. Every tool you need, unified in one interface.</p>
           </div>
 
-          <div className="md:col-span-4 p-10 rounded-[2.5rem] bg-white border border-[var(--border)] flex flex-col justify-between hover:bg-[var(--muted)] transition-all shadow-sm">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-500 mb-6">
-                <Users className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold tracking-tight">Social Core</h3>
-              <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
-                Built-in networking tools for creators to collaborate, share, and grow together.
-              </p>
-            </div>
-            <div className="mt-8 flex -space-x-3">
-              {[1,2,3,4].map(i => (
-                <div key={i} className="w-8 h-8 rounded-full bg-[var(--muted)] border-2 border-white" />
-              ))}
-              <div className="w-8 h-8 rounded-full bg-[var(--secondary)] border-2 border-white flex items-center justify-center text-[10px] font-bold text-[var(--primary)]">+2k</div>
-            </div>
-          </div>
-
-          <div className="md:col-span-4 p-10 rounded-[2.5rem] bg-white border border-[var(--border)] flex flex-col justify-between hover:bg-[var(--muted)] transition-all shadow-sm">
-             <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-[var(--success)]/10 flex items-center justify-center text-[var(--success)] mb-6">
-                  <Play className="w-6 h-6" />
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+            {/* Academy Card */}
+            <motion.div 
+              whileHover={{ y: -10 }}
+              className="md:col-span-8 group relative overflow-hidden rounded-[2.5rem] bg-white border border-[var(--border)] p-12 shadow-2xl shadow-black/5"
+            >
+              <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[var(--primary)]/5 to-transparent pointer-events-none" />
+              <div className="relative z-10 flex flex-col justify-between h-full space-y-12">
+                <div className="space-y-6">
+                  <div className="w-16 h-16 rounded-2xl bg-[var(--primary)]/10 flex items-center justify-center text-[var(--primary)] shadow-inner">
+                    <BookOpen className="w-8 h-8" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-3xl font-black uppercase tracking-tight">The Academy</h3>
+                    <p className="text-[var(--muted-foreground)] max-w-sm leading-relaxed font-medium">
+                      High-fidelity learning experiences with real-time tracking, peer reviews, and verified certifications.
+                    </p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold tracking-tight">Shorts Feed</h3>
-                <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
-                  Bite-sized video knowledge designed for the modern attention span.
+                <Link href="/course" className="inline-flex items-center gap-3 font-black text-sm uppercase tracking-widest text-[var(--primary)] group">
+                  Explore Courses <ChevronRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                </Link>
+              </div>
+              {/* Visual abstraction */}
+              <div className="absolute bottom-[-10%] right-[-5%] w-64 h-64 border-[40px] border-[var(--primary)]/5 rounded-full" />
+            </motion.div>
+
+            {/* Social Card */}
+            <motion.div 
+              whileHover={{ y: -10 }}
+              className="md:col-span-4 group relative overflow-hidden rounded-[2.5rem] bg-[var(--foreground)] text-[var(--background)] p-12 shadow-2xl"
+            >
+              <div className="space-y-8 h-full flex flex-col justify-between">
+                <div className="space-y-6">
+                  <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center text-white">
+                    <Users className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-3xl font-black uppercase tracking-tight">Global <br />Network</h3>
+                  <p className="text-white/60 text-sm font-medium leading-relaxed">
+                    Collaborate with elite creators worldwide in real-time.
+                  </p>
+                </div>
+                <div className="flex -space-x-4">
+                  {[1,2,3].map(i => (
+                    <div key={i} className="w-10 h-10 rounded-full border-2 border-[var(--foreground)] bg-[var(--muted)]" />
+                  ))}
+                  <div className="w-10 h-10 rounded-full border-2 border-[var(--foreground)] bg-[var(--primary)] flex items-center justify-center text-[10px] font-black">+2k</div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Shorts Card */}
+            <motion.div 
+              whileHover={{ y: -10 }}
+              className="md:col-span-4 rounded-[2.5rem] bg-white border border-[var(--border)] p-12 shadow-2xl shadow-black/5 flex flex-col justify-between"
+            >
+              <div className="space-y-6">
+                <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                  <Play className="w-8 h-8" />
+                </div>
+                <h3 className="text-3xl font-black uppercase tracking-tight">Shorts</h3>
+                <p className="text-[var(--muted-foreground)] text-sm font-medium leading-relaxed">
+                  Bite-sized technical mastery delivered in under 60 seconds.
                 </p>
               </div>
-          </div>
+              <div className="mt-8 aspect-video rounded-2xl bg-[var(--muted)] overflow-hidden border border-[var(--border)]">
+                 <div className="w-full h-full bg-gradient-to-br from-[var(--muted)] to-[var(--border)] flex items-center justify-center">
+                    <Play className="w-8 h-8 text-[var(--muted-foreground)]/30" />
+                 </div>
+              </div>
+            </motion.div>
 
-          <div className="md:col-span-8 p-10 rounded-[2.5rem] bg-gradient-to-br from-[var(--primary)] to-blue-600 border border-[var(--primary)] flex items-center justify-between group text-white">
-            <div className="space-y-4 max-w-md">
-              <h3 className="text-3xl font-bold tracking-tight">Start creating today.</h3>
-              <p className="opacity-90">Join the most advanced digital ecosystem for creators.</p>
-              <Link href="/auth" className="inline-flex px-6 py-3 bg-white text-[var(--primary)] rounded-xl font-bold text-sm mt-4 active:scale-95 transition-all shadow-xl">
-                Get Early Access
-              </Link>
-            </div>
-            <Globe className="w-32 h-32 text-white/20 hidden lg:block group-hover:rotate-12 transition-transform duration-1000" />
+            {/* Messaging Card */}
+            <motion.div 
+              whileHover={{ y: -10 }}
+              className="md:col-span-8 group relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[var(--primary)] to-blue-700 p-12 text-white shadow-2xl shadow-[var(--primary)]/20"
+            >
+              <div className="flex flex-col md:flex-row gap-12 items-center h-full">
+                <div className="flex-1 space-y-6">
+                  <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center">
+                    <MessageSquare className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-3xl font-black uppercase tracking-tight">Real-time <br />Directives</h3>
+                  <p className="text-white/80 font-medium">
+                    Low-latency communication layer for team coordination and mentorship.
+                  </p>
+                  <Link href="/chat" className="inline-block px-8 py-4 bg-white text-[var(--primary)] rounded-xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-transform">
+                    Launch Messenger
+                  </Link>
+                </div>
+                <div className="flex-1 w-full flex justify-center opacity-30">
+                  <div className="relative">
+                    <div className="w-48 h-48 border-4 border-white/40 rounded-full animate-ping absolute inset-0" />
+                    <div className="w-48 h-48 border-4 border-white rounded-full flex items-center justify-center">
+                      <Zap className="w-16 h-16 fill-white" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Meet the Founder Section */}
-      <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-[var(--border)]">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="relative">
-            <div className="absolute -inset-4 bg-[var(--primary)]/5 blur-2xl rounded-[3rem] -z-10" />
-            <div className="aspect-square rounded-[3rem] overflow-hidden border border-[var(--border)] bg-[var(--muted)] group shadow-xl">
+      {/* Meet the Founder Section - Editorial Style */}
+      <section id="founder" className="py-40 px-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <div className="relative group">
+            <div className="absolute -inset-8 bg-[var(--primary)]/10 blur-[80px] rounded-full group-hover:bg-[var(--primary)]/20 transition-colors" />
+            <div className="relative aspect-[4/5] rounded-[4rem] overflow-hidden border-8 border-white shadow-2xl">
               <img 
                 src="/dan-peter.jpg" 
                 alt="Dan Peter" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
               />
             </div>
-            <div className="absolute -bottom-6 -right-6 p-6 bg-white border border-[var(--border)] rounded-3xl shadow-xl">
-              <div className="text-[var(--primary)] font-black text-xl">17</div>
-              <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase tracking-widest">Years Old</div>
-            </div>
+            <motion.div 
+              initial={{ x: 50, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              className="absolute -bottom-10 -right-10 glass-premium p-10 rounded-[3rem] shadow-2xl border-white"
+            >
+              <div className="text-5xl font-black text-[var(--primary)]">17</div>
+              <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--muted-foreground)]">Years of Age</div>
+            </motion.div>
           </div>
 
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] text-[10px] font-black uppercase tracking-widest">
-                Founder & Visionary
+          <div className="space-y-12">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-[10px] font-black uppercase tracking-[0.2em]">
+                Founder & Chief Architect
               </div>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[var(--foreground)]">Dan Peter</h2>
-              <p className="text-lg text-[var(--muted-foreground)] leading-relaxed">
-                Building the future of digital interaction from Lagos, Nigeria. A student at **Immaculate Heart Comprehensive High School**, Maryland, driven by a mission to unify creative ecosystems.
+              <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase">Dan <br />Peter.</h2>
+              <p className="text-2xl font-bold leading-tight text-[var(--foreground)]">
+                Redefining the creative workflow from Lagos, Nigeria.
+              </p>
+              <p className="text-lg text-[var(--muted-foreground)] leading-relaxed font-medium">
+                A visionary architect at **Immaculate Heart Comprehensive High School**, Dan is dedicated to building frictionless digital environments that empower the next generation of global innovators.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 rounded-2xl bg-[var(--muted)] border border-[var(--border)] space-y-2">
-                <MapPin className="w-5 h-5 text-[var(--primary)]" />
-                <div className="text-sm font-bold">Location</div>
-                <div className="text-xs text-[var(--muted-foreground)]">Mende, Maryland, Lagos State</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="p-8 rounded-3xl bg-[var(--muted)] border border-[var(--border)] group hover:border-[var(--primary)]/30 transition-all">
+                <MapPin className="w-6 h-6 text-[var(--primary)] mb-4" />
+                <div className="text-sm font-black uppercase tracking-widest mb-1">HQ</div>
+                <div className="text-xs text-[var(--muted-foreground)] font-bold">Mende, Maryland, Lagos State</div>
               </div>
               <a 
                 href="https://wa.me/2348088461525" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="p-4 rounded-2xl bg-white border border-[var(--border)] space-y-2 hover:border-[var(--primary)]/30 transition-all group"
+                className="p-8 rounded-3xl bg-white border border-[var(--border)] group hover:border-[var(--success)] transition-all"
               >
-                <Phone className="w-5 h-5 text-[var(--success)]" />
-                <div className="text-sm font-bold">Contact</div>
-                <div className="text-xs text-[var(--muted-foreground)] group-hover:text-[var(--primary)] transition-colors">+234 808 846 1525</div>
+                <Phone className="w-6 h-6 text-[var(--success)] mb-4" />
+                <div className="text-sm font-black uppercase tracking-widest mb-1">Direct Line</div>
+                <div className="text-xs text-[var(--muted-foreground)] group-hover:text-[var(--primary)] transition-colors font-bold">+234 808 846 1525</div>
               </a>
             </div>
 
-            <div className="pt-6 flex items-center gap-6">
-              <div className="flex flex-col">
-                <span className="text-2xl font-bold">Lagos</span>
-                <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase tracking-widest">Operations Base</span>
+            <div className="pt-10 flex items-center gap-12 border-t border-[var(--border)]">
+              <div className="space-y-1">
+                <div className="text-3xl font-black">Lagos</div>
+                <div className="text-[10px] font-black uppercase tracking-widest text-[var(--muted-foreground)]">Base of Ops</div>
               </div>
-              <div className="w-px h-10 bg-[var(--border)]" />
-              <div className="flex flex-col">
-                <span className="text-2xl font-bold">IHCHS</span>
-                <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase tracking-widest">Education</span>
+              <div className="space-y-1">
+                <div className="text-3xl font-black">IHCHS</div>
+                <div className="text-[10px] font-black uppercase tracking-widest text-[var(--muted-foreground)]">Education</div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-32 px-6">
+        <div className="max-w-5xl mx-auto rounded-[4rem] bg-[var(--foreground)] text-[var(--background)] p-16 md:p-24 relative overflow-hidden text-center space-y-10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.4)]">
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+          <div className="relative z-10 space-y-6">
+            <h2 className="text-5xl md:text-7xl font-black tracking-tight uppercase leading-none">The Future is <br />Now.</h2>
+            <p className="text-white/60 text-lg font-medium max-w-xl mx-auto">
+              Join the elite circle of digital architects. Experience ETEMBE today.
+            </p>
+            <div className="pt-8">
+              <Link href="/auth" className="px-12 py-6 bg-[var(--primary)] text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:scale-105 transition-transform inline-block shadow-2xl shadow-[var(--primary)]/40">
+                Claim Your Access
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-20 px-6 md:px-12 border-t border-[var(--border)] bg-[var(--muted)]/50">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
-          <div className="flex items-center gap-2.5">
-            <div className="w-6 h-6 bg-[var(--primary)] rounded flex items-center justify-center font-black text-[10px] text-white">E</div>
-            <span className="font-bold text-sm tracking-tight">ETEMBE</span>
+      <footer className="py-24 px-6 border-t border-[var(--border)] bg-white">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
+          <div className="flex items-center gap-4">
+            <div className="w-8 h-8 bg-[var(--primary)] rounded-lg flex items-center justify-center font-black text-xs text-white">E</div>
+            <span className="font-black text-lg tracking-widest uppercase">ETEMBE</span>
           </div>
-          <p className="text-[11px] font-medium text-[var(--muted-foreground)] uppercase tracking-[0.2em]">© 2026 ETEMBE Ecosystem. Built for Excellence.</p>
-          <div className="flex gap-8 text-[11px] font-bold text-[var(--muted-foreground)] uppercase tracking-widest">
-            <a href="#" className="hover:text-[var(--foreground)] transition-colors">Twitter</a>
-            <a href="#" className="hover:text-[var(--foreground)] transition-colors">GitHub</a>
-            <a href="#" className="hover:text-[var(--foreground)] transition-colors">Privacy</a>
+          
+          <div className="flex gap-10 text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted-foreground)]">
+            <a href="#" className="hover:text-[var(--primary)] transition-colors">Instagram</a>
+            <a href="#" className="hover:text-[var(--primary)] transition-colors">Twitter</a>
+            <a href="#" className="hover:text-[var(--primary)] transition-colors">GitHub</a>
+            <a href="#" className="hover:text-[var(--primary)] transition-colors">Privacy</a>
           </div>
+
+          <p className="text-[9px] font-black text-[var(--muted-foreground)] uppercase tracking-[0.3em]">
+            © 2026 ETEMBE ECOSYSTEM. BEYOND BOUNDARIES.
+          </p>
         </div>
       </footer>
     </div>
