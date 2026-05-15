@@ -5,11 +5,13 @@ import {
   TrendingUp, Users, Play, BookOpen, FileText, Search, 
   ArrowRight, Heart, MessageSquare, Share2, Sparkles, Plus, Bell
 } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { LandingPage } from "@/components/LandingPage";
+import Link from "next/link";
 
 export default function HomePage() {
   const user = useAppStore((s) => s.user);
+  const isAuthenticated = useAppStore((s) => s.isAuthenticated);
   const blogs = useAppStore((s) => s.blogs);
   const shorts = useAppStore((s) => s.shorts);
   const courses = useAppStore((s) => s.courses);
@@ -19,6 +21,10 @@ export default function HomePage() {
   useEffect(() => setMounted(true), []);
 
   if (!mounted) return null;
+
+  if (!isAuthenticated) {
+    return <LandingPage />;
+  }
 
   const stats = [
     { label: "Followers", value: user ? formatNumber(user.followers.length) : "0", icon: Users, color: "text-blue-500" },

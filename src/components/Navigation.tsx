@@ -36,8 +36,8 @@ export function Navigation() {
   const unreadNotifs = notifications.filter((n) => !n.read).length;
   const totalUnreadChats = chats.reduce((acc, c) => acc + c.unread, 0);
 
-  // Don't show nav on auth page
-  if (pathname.startsWith("/auth")) return null;
+  // Don't show nav on auth page or if not authenticated
+  if (pathname.startsWith("/auth") || !isAuthenticated) return null;
 
   return (
     <>
