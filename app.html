@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>ETEMBE V10</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none}
+body{font-family:'Inter';position:fixed;inset:0;width:100%;height:100dvh;background:linear-gradient(to bottom,#FCFBFF,#F5F3FF,#EDE9FF);background-attachment:fixed}
+.serif{font-family:'Instrument Serif'}
+.screen{display:none;position:fixed;inset:0;height:100dvh;overflow:hidden;flex-direction:column}
+.screen.active{display:flex}
+.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.input:focus{border-color:#8B7CF8;box-shadow:0 0 0 3px #EDE9FF}
+.blob1{position:fixed;top:-80px;left:-80px;width:320px;height:320px;background:#C4B5FD;border-radius:9999px;filter:blur(50px);opacity:.4;pointer-events:none}
+.blob2{position:fixed;bottom:-80px;right:-80px;width:380px;height:380px;background:#DDD6FE;border-radius:9999px;filter:blur(60px);opacity:.6;pointer-events:none}
+.bubble{white-space:pre-wrap;word-wrap:break-word}
+.typing span{display:inline-block;width:6px;height:6px;margin:0 2px;background:#8B7CF8;border-radius:50%;animation:b 1s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,100%{opacity:.3}50%{opacity:1}}
+.mic-on{background:#FEE2E2!important;color:#EF4444}
+</style>
+</head>
+<body>
+<div class="blob1"></div><div class="blob2"></div>
+
+<!-- LANDING -->
+<div id="landing" class="screen active items-center justify-center">
+<div class="relative z-10 w-full max-w-[340px] text-center p-6">
+<div class="w-14 h-14 bg-white shadow rounded-2xl flex items-center justify-center mx-auto mb-6 border border-[#EDE9FF]">📖</div>
+<h1 class="serif text-[52px] leading-[0.85]">ETEMBE</h1>
+<h1 class="serif text-[58px] leading-[0.85] text-[#8B7CF8] italic">V10</h1>
+<p class="mt-6 text-[14px] text-zinc-600">Learn any career and any subject in one app. Your AI coach and professor, always ready.</p>
+<button onclick="showScreen('auth')" class="mt-10 w-full bg-zinc-900 text-white rounded-full py-[18px] font-semibold shadow active:scale-[0.98]">Get Started</button>
+<button onclick="showScreen('signin')" class="mt-3 w-full bg-white text-zinc-900 border border-[#EDE9FF] rounded-full py-[18px] font-semibold shadow-sm active:scale-[0.98]">Log In</button>
+</div>
+</div>
+
+<!-- AUTH -->
+<div id="auth" class="screen">
+<div class="scroll flex-1 relative z-10"><div class="w-full max-w-[380px] mx-auto p-6 pt-12 flex flex-col">
+<button onclick="showScreen('landing')" class="w-9 h-9 bg-white border border-[#EDE9FF] rounded-full">←</button>
+<h2 class="serif text-[36px] mt-8">Create your<br><span class="text-[#8B7CF8] italic">account</span></h2>
+<p class="text-[13px] text-zinc-500 mt-2">Must fill to continue. We'll email you a link to confirm.</p>
+<form onsubmit="handleRegister(event)" class="mt-8 space-y-4">
+<input id="username" required placeholder="Username" class="input w-full bg-white border border-[#E9E6FF] rounded-full px-5 py-4 outline-none">
+<input id="email" required type="email" placeholder="Email" class="input w-full bg-white border border-[#E9E6FF] rounded-full px-5 py-4 outline-none">
+<input id="password" required type="password" minlength="6" placeholder="Password (6+ characters)" class="input w-full bg-white border border-[#E9E6FF] rounded-full px-5 py-4 outline-none">
+<p id="suMsg" class="text-[12px] hidden px-2"></p>
+<button type="submit" class="w-full bg-[#8B7CF8] text-white rounded-full py-[18px] font-semibold shadow-[0_8px_20px_rgba(139,124,248,0.4)]">Continue to App →</button>
+</form>
+</div></div>
+</div>
+
+<!-- SIGN IN -->
+<div id="signin" class="screen">
+<div class="scroll flex-1 relative z-10"><div class="w-full max-w-[380px] mx-auto p-6 pt-12 flex flex-col">
+<button onclick="showScreen('landing')" class="w-9 h-9 bg-white border border-[#EDE9FF] rounded-full">←</button>
+<h2 class="serif text-[36px] mt-8">Welcome<br><span class="text-[#8B7CF8] italic">back</span></h2>
+<p class="text-[13px] text-zinc-500 mt-2">Log in to continue learning.</p>
+<form onsubmit="handleSignIn(event)" class="mt-8 space-y-4">
+<input id="siEmail" required type="email" placeholder="Email" class="input w-full bg-white border border-[#E9E6FF] rounded-full px-5 py-4 outline-none">
+<input id="siPassword" required type="password" placeholder="Password" class="input w-full bg-white border border-[#E9E6FF] rounded-full px-5 py-4 outline-none">
+<p id="siError" class="text-[12px] text-red-500 hidden px-2"></p>
+<button type="submit" class="w-full bg-[#8B7CF8] text-white rounded-full py-[18px] font-semibold shadow-[0_8px_20px_rgba(139,124,248,0.4)]">Log In →</button>
+</form>
+<p class="text-[13px] text-zinc-500 mt-6 text-center">New here? <button onclick="showScreen('auth')" class="text-[#8B7CF8] font-semibold">Create an account</button></p>
+</div></div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="screen">
+<div class="scroll flex-1 relative z-10"><div class="w-full max-w-[420px] mx-auto p-6 pt-12">
+<div class="flex justify-between"><div><p class="text-[11px] uppercase text-[#8B7CF8] font-bold">Welcome</p><h2 id="homeName" class="serif text-[30px]">Learner 👋</h2></div><button onclick="changeInitial()" class="avatar w-10 h-10 rounded-full bg-[#8B7CF8] text-white flex items-center justify-center">L</button></div>
+<div class="mt-6 bg-gradient-to-br from-[#8B7CF8] to-[#7C3AED] rounded-[28px] p-5 text-white shadow"><p class="text-[11px] uppercase opacity-70">Your Analysis</p><div class="grid grid-cols-3 gap-3 mt-4"><div class="bg-white/15 rounded-2xl p-3 text-center"><p class="stScore text-[24px] font-semibold">0</p><p class="text-[10px]">Score</p></div><div class="bg-white/15 rounded-2xl p-3 text-center"><p class="stLessons text-[24px] font-semibold">0</p><p class="text-[10px]">Lessons</p></div><div class="bg-white/15 rounded-2xl p-3 text-center"><p class="stStreak text-[24px] font-semibold">0</p><p class="text-[10px]">Streak</p></div></div><p class="mt-4 text-[12px] opacity-80">Every question you ask grows your score 🚀</p></div>
+<div class="mt-6 grid grid-cols-2 gap-3">
+<button onclick="openChat('career')" class="bg-gradient-to-br from-[#8B7CF8] to-[#7C3AED] text-white rounded-3xl p-4 text-left shadow-[0_8px_20px_rgba(139,124,248,0.35)]"><p class="text-[22px]">💼</p><p class="text-[14px] font-semibold mt-2">Career Coach</p><p class="careerLabel text-[11px] opacity-80">Software Engineer</p></button>
+<button onclick="openChat('education')" class="bg-gradient-to-br from-[#A78BFA] to-[#8B7CF8] text-white rounded-3xl p-4 text-left shadow-[0_8px_20px_rgba(139,124,248,0.35)]"><p class="text-[22px]">🎓</p><p class="text-[14px] font-semibold mt-2">Education Professor</p><p class="text-[11px] opacity-80">Any subject, any homework</p></button>
+</div>
+<button onclick="showScreen('profile')" class="w-full mt-6 bg-zinc-900 text-white rounded-full py-4">View Profile →</button>
+</div></div>
+<nav class="relative z-10 bg-white border-t border-[#EDE9FF] flex justify-around py-3 pb-7 max-w-[420px] mx-auto w-full shrink-0"><button class="text-[#8B7CF8]">🏠<br><span class="text-[10px]">Home</span></button><button onclick="openChat('career')" class="text-zinc-400">💼<br><span class="text-[10px]">Career</span></button><button onclick="openChat('education')" class="text-zinc-400">🎓<br><span class="text-[10px]">Education</span></button><button onclick="showScreen('profile')" class="text-zinc-400">👤<br><span class="text-[10px]">Profile</span></button></nav>
+</div>
+
+<!-- CAREER CHAT -->
+<div id="career" class="screen">
+<header class="relative z-10 shrink-0 bg-white/90 backdrop-blur border-b border-[#EDE9FF] px-4 pt-10 pb-3 flex items-center gap-3 max-w-[420px] mx-auto w-full">
+<button onclick="showScreen('home')" class="w-9 h-9 bg-white border border-[#EDE9FF] rounded-full shrink-0">←</button>
+<div class="w-10 h-10 rounded-full bg-[#8B7CF8] text-white flex items-center justify-center shrink-0">💼</div>
+<div class="flex-1 min-w-0"><p class="text-[14px] font-semibold">Career Coach</p><p class="careerLabel text-[11px] text-[#8B7CF8] truncate">Software Engineer</p></div>
+</header>
+<div id="careerMsgs" class="scroll flex-1 relative z-10 w-full max-w-[420px] mx-auto px-4 pt-4 pb-[100px] space-y-3"></div>
+<div class="fixed bottom-0 left-0 right-0 z-20"><div class="max-w-[420px] mx-auto bg-white border-t border-[#EDE9FF] px-3 pt-2 pb-6">
+<div id="careerPrev" class="hidden mb-2 relative w-16"><img class="w-16 h-16 object-cover rounded-xl border border-[#EDE9FF]"><button onclick="clearImg('career')" class="absolute -top-2 -right-2 w-5 h-5 bg-zinc-900 text-white rounded-full text-[10px]">✕</button></div>
+<div class="flex items-center gap-2">
+<label class="w-10 h-10 shrink-0 bg-[#F5F3FF] rounded-full flex items-center justify-center cursor-pointer">📸<input type="file" accept="image/*" class="hidden" onchange="pickImg(event,'career')"></label>
+<input id="careerIn" placeholder="Ask about career..." onkeydown="if(event.key==='Enter')send('career')" class="input flex-1 min-w-0 bg-[#F8F6FF] border border-[#EDE9FF] rounded-full px-4 py-3 outline-none text-[14px]">
+<button id="careerMic" onclick="mic('career')" class="w-10 h-10 shrink-0 bg-[#F5F3FF] rounded-full">🎤</button>
+<button onclick="send('career')" class="w-10 h-10 shrink-0 bg-[#8B7CF8] text-white rounded-full font-bold">↑</button>
+</div></div></div>
+</div>
+
+<!-- EDUCATION CHAT -->
+<div id="education" class="screen">
+<header class="relative z-10 shrink-0 bg-white/90 backdrop-blur border-b border-[#EDE9FF] px-4 pt-10 pb-3 flex items-center gap-3 max-w-[420px] mx-auto w-full">
+<button onclick="showScreen('home')" class="w-9 h-9 bg-white border border-[#EDE9FF] rounded-full shrink-0">←</button>
+<div class="w-10 h-10 rounded-full bg-zinc-900 text-white flex items-center justify-center shrink-0">🎓</div>
+<div class="flex-1"><p class="text-[14px] font-semibold">Education Professor</p><p class="text-[11px] text-[#8B7CF8]">Any subject • Snap your homework</p></div>
+</header>
+<div id="educationMsgs" class="scroll flex-1 relative z-10 w-full max-w-[420px] mx-auto px-4 pt-4 pb-[100px] space-y-3"></div>
+<div class="fixed bottom-0 left-0 right-0 z-20"><div class="max-w-[420px] mx-auto bg-white border-t border-[#EDE9FF] px-3 pt-2 pb-6">
+<div id="educationPrev" class="hidden mb-2 relative w-16"><img class="w-16 h-16 object-cover rounded-xl border border-[#EDE9FF]"><button onclick="clearImg('education')" class="absolute -top-2 -right-2 w-5 h-5 bg-zinc-900 text-white rounded-full text-[10px]">✕</button></div>
+<div class="flex items-center gap-2">
+<label class="w-10 h-10 shrink-0 bg-[#F5F3FF] rounded-full flex items-center justify-center cursor-pointer">📸<input type="file" accept="image/*" class="hidden" onchange="pickImg(event,'education')"></label>
+<input id="educationIn" placeholder="Ask Education Professor..." onkeydown="if(event.key==='Enter')send('education')" class="input flex-1 min-w-0 bg-[#F8F6FF] border border-[#EDE9FF] rounded-full px-4 py-3 outline-none text-[14px]">
+<button id="educationMic" onclick="mic('education')" class="w-10 h-10 shrink-0 bg-[#F5F3FF] rounded-full">🎤</button>
+<button onclick="send('education')" class="w-10 h-10 shrink-0 bg-zinc-900 text-white rounded-full font-bold">↑</button>
+</div></div></div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="screen">
+<div class="scroll flex-1 relative z-10"><div class="max-w-[420px] mx-auto p-6 pt-12 w-full">
+<button onclick="showScreen('home')" class="w-9 h-9 bg-white border border-[#EDE9FF] rounded-full">←</button>
+<h2 class="serif text-[30px] mt-6">Profile</h2>
+<div class="mt-6 bg-white border border-[#EDE9FF] rounded-3xl p-5 flex gap-4 items-center"><button onclick="changeInitial()" class="avatar w-14 h-14 bg-[#8B7CF8] rounded-full text-white flex items-center justify-center text-[20px]">L</button><div class="min-w-0"><p id="profileName" class="font-semibold">Learner</p><p id="profileEmail" class="text-[12px] text-zinc-500 truncate"></p><p class="careerLabel text-[11px] text-[#8B7CF8]">Software Engineer</p></div></div>
+<div class="mt-4 bg-zinc-900 rounded-[20px] p-4 text-white grid grid-cols-2"><div class="text-center"><p class="stScore text-[20px]">0</p><p class="text-[10px] opacity-60">Score</p></div><div class="text-center"><p class="stLessons text-[20px]">0</p><p class="text-[10px] opacity-60">Lessons</p></div></div>
+<button onclick="showScreen('settings')" class="w-full mt-4 bg-white border border-[#EDE9FF] rounded-full py-4">⚙️ Settings</button>
+</div></div>
+</div>
+
+<!-- SETTINGS -->
+<div id="settings" class="screen">
+<div class="scroll flex-1 relative z-10"><div class="max-w-[420px] mx-auto p-6 pt-12 w-full"><button onclick="showScreen('profile')" class="w-9 h-9 bg-white border border-[#EDE9FF] rounded-full">←</button><h2 class="serif text-[30px] mt-6">Settings</h2><div class="mt-6 space-y-3"><button class="w-full bg-white border border-[#EDE9FF] rounded-full py-4 px-5 text-left">🔔 Notifications</button><button onclick="handleLogout()" class="w-full bg-zinc-900 text-white rounded-full py-4">Log Out</button><button onclick="handleDelete()" class="w-full bg-white border border-red-200 text-red-500 rounded-full py-4">Delete Account</button></div></div></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=window.supabase.createClient("https://c--1a2d3b6b-e53d-4ef9-a2d2-1581c868cced-prod.lovable.cloud","sb_publishable_SUKFF58TCtR_-xApZ_QN2w_7Z1wk00e");
+const TUTOR=(location.protocol.startsWith('http')?location.origin:'https://id-preview--1a2d3b6b-e53d-4ef9-a2d2-1581c868cced.lovable.app')+'/api/public/tutor';
+const S={user:null,name:'Learner',career:'',lessons:0,streak:0,last:null,initial:null,img:{career:null,education:null},hist:{career:[],education:[]},rec:null,busy:{}};
+const $=id=>document.getElementById(id);
+const all=(c,f)=>document.querySelectorAll(c).forEach(f);
+function showScreen(id){all('.screen',s=>s.classList.remove('active'));$(id).classList.add('active')}
+function msg(id,text,ok){const el=$(id);el.textContent=text;el.className='text-[12px] px-2 '+(ok?'text-[#7C3AED]':'text-red-500')}
+const save=f=>S.user&&sb.from('profiles').update(f).eq('id',S.user.id).then(()=>{});
+
+function stats(){all('.stLessons',e=>e.textContent=S.lessons);all('.stScore',e=>e.textContent=S.lessons*10);all('.stStreak',e=>e.textContent=S.streak)}
+function today(d){return (d||new Date()).toISOString().slice(0,10)}
+function addLesson(){S.lessons++;const t=today();if(S.last!==t){const y=today(new Date(Date.now()-864e5));S.streak=S.last===y?S.streak+1:1;S.last=t}stats();save({lessons:S.lessons,streak:S.streak,last_active:S.last})}
+
+function paintUser(){$('homeName').textContent=S.name+' 👋';$('profileName').textContent=S.name;$('profileEmail').textContent=S.user?.email||'';all('.avatar',e=>e.textContent=S.initial||S.name[0].toUpperCase());all('.careerLabel',e=>e.textContent=S.career||'Type any career');stats()}
+function changeInitial(){const v=prompt('Choose your avatar letter',S.initial||S.name[0]);if(v&&v.trim()){S.initial=v.trim()[0].toUpperCase();paintUser();save({avatar_initial:S.initial})}}
+
+function setCareer(c){S.career=c;paintUser();save({career:c})}
+function changeCareerPrompt(){const c=prompt('What career do you want to learn?',S.career);if(c&&c.trim()){setCareer(c.trim());addMsg('career','assistant','Great choice! I am now your '+c.trim()+' coach. What would you like to learn first?')}}
+
+async function enterApp(user){S.user=user;const {data}=await sb.from('profiles').select('username,career,lessons,streak,last_active,avatar_initial').eq('id',user.id).maybeSingle();
+S.name=data?.username||user.user_metadata?.username||user.email.split('@')[0];S.career=data?.career||'';S.lessons=data?.lessons||0;S.streak=data?.streak||0;S.last=data?.last_active||null;S.initial=data?.avatar_initial||null;
+if(S.last&&S.last!==today()&&S.last!==today(new Date(Date.now()-864e5))){S.streak=0}
+paintUser();showScreen('home');
+const {data:rows}=await sb.from('chat_messages').select('kind,role,content,image').order('created_at');
+for(const k of ['career','education']){$(k+'Msgs').innerHTML='';S.hist[k]=[]}
+(rows||[]).forEach(r=>{if(!S.hist[r.kind])return;S.hist[r.kind].push({role:r.role,text:r.content,image:r.image});bubble(r.kind,r.role,r.content,r.image)})}
+async function handleRegister(e){e.preventDefault();const u=$('username').value.trim(),em=$('email').value.trim(),pw=$('password').value;msg('suMsg','Creating your account…',true);const {data,error}=await sb.auth.signUp({email:em,password:pw,options:{data:{username:u},emailRedirectTo:window.location.origin}});if(error){msg('suMsg',error.message);return}if(data.session){enterApp(data.user);return}msg('suMsg','Almost done! Check your email and tap the confirm link, then log in.',true)}
+async function handleSignIn(e){e.preventDefault();const err=$('siError');err.classList.add('hidden');const {data,error}=await sb.auth.signInWithPassword({email:$('siEmail').value.trim(),password:$('siPassword').value});if(error){err.textContent=/confirm/i.test(error.message)?'Please confirm your email first (check your inbox).':'Wrong email or password. Try again.';err.classList.remove('hidden');return}enterApp(data.user)}
+async function handleLogout(){await sb.auth.signOut();S.user=null;showScreen('landing')}
+async function handleDelete(){if(!confirm('Delete account? This cannot be undone.'))return;const {error}=await sb.rpc('delete_my_account');if(error){alert('Could not delete account: '+error.message);return}await sb.auth.signOut();S.user=null;showScreen('landing')}
+
+// chat
+function openChat(t){showScreen(t);const b=$(t+'Msgs');if(!b.children.length){bubble(t,'assistant',t==='career'?(S.career?'Hi '+S.name+'! I am your Career Coach for '+S.career+'. Ask me anything, or say "Change my career to …" to switch.':'Hi '+S.name+'! Which career do you want to learn? Type any career — for example Nurse, Pilot or Fashion Designer.'):'Hi '+S.name+'! I am your Education Professor. Ask about any subject or snap a photo of your homework 📸')}b.scrollTop=b.scrollHeight}
+function bubble(t,who,text,img){const box=$(t+'Msgs');const row=document.createElement('div');row.className='flex '+(who==='user'?'justify-end':'justify-start');const b=document.createElement('div');b.className='bubble max-w-[80%] rounded-3xl px-4 py-3 text-[14px] '+(who==='user'?(t==='career'?'bg-[#8B7CF8]':'bg-zinc-900')+' text-white rounded-br-md':'bg-white border border-[#EDE9FF] text-zinc-800 rounded-bl-md');if(img){const i=document.createElement('img');i.src=img;i.className='rounded-2xl mb-2 max-h-56';b.appendChild(i)}const sp=document.createElement('span');if(text==='…')sp.innerHTML='<span class="typing"><span></span><span></span><span></span></span>';else sp.textContent=text||'';b.appendChild(sp);row.appendChild(b);box.appendChild(row);box.scrollTop=box.scrollHeight;return sp}
+function store(t,role,text,image){S.hist[t].push({role,text,image});if(S.user)sb.from('chat_messages').insert({kind:t,role,content:text||'',image:image||null}).then(()=>{})}
+function addMsg(t,role,text,image){bubble(t,role,text,image);store(t,role,text,image)}
+// shrink photos so they upload fast and stay readable
+function pickImg(e,t){const f=e.target.files[0];e.target.value='';if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1280/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);S.img[t]=c.toDataURL('image/jpeg',0.82);const p=$(t+'Prev');p.querySelector('img').src=S.img[t];p.classList.remove('hidden')};im.onerror=()=>alert('That photo could not be opened. Try a JPG or PNG.');im.src=r.result};r.readAsDataURL(f)}
+function clearImg(t){S.img[t]=null;$(t+'Prev').classList.add('hidden')}
+function mic(t){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert('Voice typing is not supported on this browser. Try Chrome.');return}if(S.rec){S.rec.stop();return}const r=new R();r.lang='en-US';r.interimResults=true;const btn=$(t+'Mic'),inp=$(t+'In'),base=inp.value;r.onresult=ev=>{let s='';for(const x of ev.results)s+=x[0].transcript;inp.value=(base?base+' ':'')+s};r.onend=()=>{btn.classList.remove('mic-on');S.rec=null};btn.classList.add('mic-on');S.rec=r;r.start()}
+async function send(t){if(S.busy[t])return;const inp=$(t+'In');const text=inp.value.trim();const img=S.img[t];if(!text&&!img)return;inp.value='';clearImg(t);addMsg(t,'user',text,img);
+if(t==='career'){const m=text.match(/change (?:my )?career to (.+)/i);const c=m?m[1].replace(/[.!]+$/,'').trim():(!S.career&&!img?text:null);if(c){setCareer(c);addMsg(t,'assistant','Done! Your career is now '+c+'. Let\'s learn it step by step — what do you want to know first?');addLesson();return}}
+const sys=t==='career'?'You are an expert Career Coach for '+(S.career||'any career')+'. Teach step by step in simple language. Keep answers short and practical.':'You are a friendly Professor for any education subject. When given a homework photo, first write out what the question says, then solve it step by step and give the final answer clearly. Use plain text math (no LaTeX).';
+const out=bubble(t,'assistant','…');S.busy[t]=1;let full='';
+try{const {data:{session}}=await sb.auth.getSession();const res=await fetch(TUTOR,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+(session?.access_token||'')},body:JSON.stringify({system:sys,messages:S.hist[t].slice(-12)})});
+if(!res.ok){const j=await res.json().catch(()=>({}));out.textContent=j.error||'Sorry, something went wrong. Please try again.';return}
+const rd=res.body.getReader(),dec=new TextDecoder();for(;;){const {done,value}=await rd.read();if(done)break;full+=dec.decode(value,{stream:true});out.textContent=full;$(t+'Msgs').scrollTop=$(t+'Msgs').scrollHeight}
+if(!full){out.textContent='Sorry, I could not answer that. Please try again.';return}store(t,'assistant',full);addLesson()}
+catch(e){out.textContent='Connection problem. Please check your internet and try again.'}
+finally{S.busy[t]=0}}
+
+sb.auth.getUser().then(({data})=>{if(data.user)enterApp(data.user)});
+</script>
+</body>
+</html>

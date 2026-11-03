@@ -1,0 +1,15 @@
+{
+  "id": "/",
+  "name": "ETEMBE",
+  "short_name": "ETEMBE",
+  "description": "Your AI career coach and education professor.",
+  "start_url": "/",
+  "scope": "/",
+  "theme_color": "#8B7CF8",
+  "background_color": "#FCFBFF",
+  "display": "standalone",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
